@@ -1,0 +1,72 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewmodels="clr-namespace:Tomato.ViewModels"
+                    xmlns:local="clr-namespace:Tomato">
+   
+    <DataTemplate DataType="{x:Type viewmodels:CountdownViewModel}">
+        <DataTemplate.Resources>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        </DataTemplate.Resources>
+        
+        <Grid  VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Count, StringFormat='{}№ {0}'}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding Current.Minutes}" FontSize="100"/>
+                <TextBlock Text=":" FontSize="100" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Current.Seconds}" FontSize="100"/>
+            </StackPanel>
+
+            <!-- Action buttons-->
+            <DockPanel Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center">
+                <Button Width="22" Height="22"
+                        ToolTip="{x:Static local:Resource.ResStartStopLabel}"
+                        Command="{Binding StartStopCommand}">
+                    <Grid>
+                        <Path Fill="{StaticResource UiButtonBorderBrush}" Data="M50,50 L100,100 50,150 Z" Stretch="Uniform" Margin="2"/>
+                        <Path Fill="{StaticResource UiButtonBorderBrush}" Data="M50,50 L100,50 100,100 50,100 Z" Stretch="Uniform" Margin="2"
+                              Visibility="{Binding IsStarted, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Grid>
+                </Button>
+
+                <Button Width="22" Height="22"
+                        ToolTip="{x:Static local:Resource.ResPauseLabel}"
+                        Command="{Binding PauseCommand}"
+                        IsEnabled="{Binding IsStarted}">
+                    <StackPanel Height="9.353" Width="8.68" Orientation="Horizontal">
+                        <Rectangle Height="9.353" Width="2.18" Fill="{StaticResource UiButtonBorderBrush}" Margin="0,0,1,0"/>
+                        <Rectangle Height="9.353" Width="2.18" Fill="{StaticResource UiButtonBorderBrush}" Margin="2,0,0,0"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="22" Height="22"
+                        ToolTip="{x:Static local:Resource.ResRewindLabel}"
+                        Command="{Binding RewindCommand}">
+                    <Path Fill="{StaticResource UiButtonBorderBrush}" Data="M50,50 L100,100 50,150 Z M100,50 L150,100 100,150 Z" Stretch="Uniform" Margin="2"/>
+                </Button>
+            </DockPanel>
+            
+            <!-- Working Label -->
+            <TextBlock Grid.Row="3" HorizontalAlignment="Center"
+                       Text="{x:Static local:Resource.ResWorkingLabel}"
+                       Visibility="{Binding Current.IsWorkingTrack, Converter={StaticResource BooleanToVisibilityConverter}}"/>            
+            <!-- Rest Label -->
+            <TextBlock Grid.Row="3" HorizontalAlignment="Center"
+                       Text="{x:Static local:Resource.ResRestLabel}"
+                       Visibility="{Binding Current.IsRestTrack, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <!-- Long Rest Command Buttons -->
+            <DockPanel Grid.Row="3" LastChildFill="False" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Visibility="{Binding Current.IsLongRestTrack, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock DockPanel.Dock="Top" Text="{x:Static local:Resource.ResLongRestLabel}" HorizontalAlignment="Center"/>
+                <Button Content=" 15 " Command="{Binding SetLongRestInterval}" CommandParameter="15"/>
+                <Button Content=" 20 " Command="{Binding SetLongRestInterval}" CommandParameter="20"/>
+                <Button Content=" 25 " Command="{Binding SetLongRestInterval}" CommandParameter="25"/>
+                <Button Content=" 30 " Command="{Binding SetLongRestInterval}" CommandParameter="30"/>
+            </DockPanel>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>
