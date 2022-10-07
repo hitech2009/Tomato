@@ -5,14 +5,18 @@ namespace Tomato.Services
     public interface ITrackingService
     {
         TrackingInterval Current { get; }
+
         int Count { get; }
+
         TrackingInterval GetNextInterval();
+
         TrackingInterval UpdatedLongRestInterval(int interval);
     }
 
     internal class TrackingService : ITrackingService
     {
         public int Count { get; private set; } = 0;
+
         public TrackingInterval Current { get; private set; } = TrackingInterval.WorkingTrack;
 
         public TrackingInterval GetNextInterval()

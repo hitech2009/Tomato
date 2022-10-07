@@ -25,10 +25,15 @@
 
             SetNextInterval();
         }
+
         public ICommand StartStopCommand { get; }
+
         public ICommand StopCommand { get; }
+
         public ICommand PauseCommand { get; }
+
         public ICommand RewindCommand { get; }
+
         public ICommand SetLongRestInterval { get; }
 
         public TrackingInterval Current { get; private set; }
