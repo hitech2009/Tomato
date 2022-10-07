@@ -6,7 +6,7 @@
     {
         private const string Zero = "00";
 
-        private const int WorkingIntervalMins = 20;
+        private const int WorkingIntervalMins = 25;
         private const int RestIntervalMins = 5;
         private const int LongRestIntervalMins = 15;
 
